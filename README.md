@@ -1,58 +1,36 @@
-# E-Shop Next.js Project
-
-Welcome to the E-Shop Next.js project, a comprehensive tutorial covering the development of a feature-rich e-commerce platform. This project is designed to guide you through the creation of a Next.js app with a wide range of functionalities.
-
-## Table of Contents
-
-- [E-Shop Next.js Project](#e-shop-nextjs-project)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Prerequisites](#prerequisites)
-  - [Getting Started](#getting-started)
-  - [Features](#features)
-  - [Authentication](#authentication)
-  - [Payment Processing](#payment-processing)
-  - [Admin Dashboard](#admin-dashboard)
-  - [Deployment](#deployment)
-
-## Introduction
-
-This project provides a step-by-step tutorial, starting from the basics of creating a Next.js app to advanced features such as user authentication, Stripe payment processing, and the development of an Admin Dashboard for managing products and orders.
-
-## Prerequisites
-
-Make sure you have Node.js and npm installed on your machine. You can download them from [Node.js official website](https://nodejs.org/).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-Follow the tutorial sections to set up your Next.js app, build the app layout, add product listings, create a shopping cart, and implement various features to make a fully functional e-commerce site.
+First, run the development server:
 
-## Features
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-- Responsive app layout with a root layout, navigation bar, and footer.
-- Dynamic product listings, product details, and product cards.
-- Interactive shopping cart with features like adding, removing, and adjusting product quantities.
-- User authentication with Next Auth.
-- Payment processing integration with Stripe.
-- Admin dashboard for managing products, orders, and categories.
-- Product reviews, search functionality, and more.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Authentication
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Explore how to implement user authentication using Next Auth, ensuring a secure and personalized experience for your users.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Payment Processing
+## Learn More
 
-Learn how to process payments using the Stripe payment gateway, enabling a seamless checkout experience for your customers.
+To learn more about Next.js, take a look at the following resources:
 
-## Admin Dashboard
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Develop an Admin Dashboard to manage products, orders, and categories, providing a centralized control panel for site administrators.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deployment
+## Deploy on Vercel
 
-Complete the tutorial by deploying your e-commerce site, making it accessible to users worldwide.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
----
-
-Feel free to customize this README to match the specifics of your project, and provide any additional information or context that might be relevant.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
