@@ -23,7 +23,7 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {},
+  reactStrictMode: false
 };
 
 module.exports = nextConfig;

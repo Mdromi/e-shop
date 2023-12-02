@@ -1,5 +1,6 @@
 import { CartProductType } from "@/app/product/[productId]/ProductDetails";
-import { error } from "console";
+import toast from "react-hot-toast";
+
 import {
   createContext,
   useCallback,
@@ -27,26 +28,33 @@ export const CartContextProvider = (props: Props) => {
   );
 
   useEffect(() => {
-    const cartItems: any = localStorage.getItem("eShopCartItems");
-    const cProducts: CartProductType[] | null = JSON.parse(cartItems);
-    setCartProducts(cProducts);
+    const cartItems = localStorage.getItem("eShopCartItems");
+    if (cartItems) {
+      const cProducts: CartProductType[] = JSON.parse(cartItems);
+      setCartProducts(cProducts);
+    }
   }, []);
 
-  const handleAddProductToCart = useCallback((product: CartProductType) => {
-    setCartProducts((prev) => {
-      let updatedCart;
+  const handleAddProductToCart = useCallback(
+    (product: CartProductType) => {
+      setCartProducts((prev) => {
+        const updatedCart = prev ? [...prev, product] : [product];
 
-      if (prev) {
-        updatedCart = [...prev, product];
-      } else {
-        updatedCart = [product];
-      }
+        // Increment cartTotalQty
+        setCartTotalQty((prevQty) => prevQty + 1);
 
-      localStorage.setItem("eShopCartItems", JSON.stringify(updatedCart));
+        // Only show toast if the cart is updated
+        if (prev !== updatedCart) {
+          toast.success("Product added to cart");
+        }
 
-      return updatedCart;
-    });
-  }, []);
+        // localStorage.setItem("eShopCartItems", JSON.stringify(updatedCart));
+
+        return updatedCart;
+      });
+    },
+    [setCartProducts, setCartTotalQty]
+  );
 
   const value = {
     cartTotalQty,
@@ -59,7 +67,7 @@ export const CartContextProvider = (props: Props) => {
 export const useCart = () => {
   const context = useContext(CartContext);
 
-  if (context == null) {
+  if (context === null) {
     throw new Error("useCart must be used within a CartContextProvider");
   }
   return context;
