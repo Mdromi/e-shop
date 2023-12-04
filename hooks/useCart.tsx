@@ -48,7 +48,7 @@ export const CartContextProvider = (props: Props) => {
           toast.success("Product added to cart");
         }
 
-        // localStorage.setItem("eShopCartItems", JSON.stringify(updatedCart));
+        localStorage.setItem("eShopCartItems", JSON.stringify(updatedCart));
 
         return updatedCart;
       });
