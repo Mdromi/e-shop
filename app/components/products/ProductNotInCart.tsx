@@ -12,7 +12,7 @@ const ProductNotInCart: React.FC<{
   cartProduct: CartProductType;
   images: SelectedImageType[];
   handleColorSelect: (value: SelectedImageType) => void;
-  handleQtyChange: (amount: number) => void;
+  handleQtyChange: (_:CartProductType, amount: number) => void;
   handleAddToCart: () => void;
 }> = ({
   cartProduct,

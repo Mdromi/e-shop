@@ -8,6 +8,7 @@ import ProductOverview from "@/app/components/products/ProductOverview";
 import { useCart } from "@/hooks/useCart";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 export interface ProductDetailsProps {
   product: any;
@@ -20,7 +21,7 @@ export type CartProductType = {
   category: string;
   brand: string;
   selectedImg: SelectedImageType;
-  qantity: number;
+  quantity: number;
   price: number;
 };
 
@@ -31,6 +32,8 @@ export type SelectedImageType = {
 };
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
+  console.log("product", product);
+  
   const { cartProducts, handleAddProductToCart } = useCart();
   const [isProductInCart, setIsProductInCart] = useState(false);
   const [cartProduct, setCartProduct] = useState<CartProductType>({
@@ -40,13 +43,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
     category: product.category,
     brand: product.brand,
     selectedImg: { ...product.images[0] },
-    qantity: 1,
+    quantity: 1,
     price: product.price,
   });
 
   const router = useRouter();
-
-  console.log("cartProducts", cartProducts);
 
   useEffect(() => {
     if (cartProducts) {
@@ -67,12 +68,22 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
   );
 
   const handleQtyChange = useCallback(
-    (amount: number) =>
-      setCartProduct((prev) => ({
-        ...prev,
-        qantity: Math.max(1, Math.min(prev.qantity + amount, 9)),
-      })),
-    []
+    (_: CartProductType, amount: number) => {
+      const isMinimumReached = amount === -1 && cartProduct.quantity === 1;
+      const isMaximumReached = amount === 1 && cartProduct.quantity >= 9;
+
+      if (isMinimumReached) {
+        toast.error("Oops! Minimum reached");
+      } else if (isMaximumReached) {
+        toast.error("Oops! Maximum reached");
+      } else {
+        setCartProduct((prev) => ({
+          ...prev,
+          quantity: Math.max(1, Math.min(prev.quantity + amount, 9)),
+        }));
+      }
+    },
+    [cartProduct, setCartProduct]
   );
 
   return (
