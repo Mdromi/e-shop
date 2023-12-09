@@ -33,7 +33,7 @@ export default function RootLayout({
         <CartProvider>
           <div className="flex flex-col min-h-screen">
             <Navbar />
-            {/* <main className="flex flex-grow">{children}</main> */}
+            {/* <main className="flex flex-grow-0">{children}</main> */}
             <main className="">{children}</main>
             <Footer />
           </div>
