@@ -22,11 +22,11 @@ const UserMenu = ({ currentUser }: { currentUser: SafeUser | null }) => {
           onClick={toggleOpen}
           className="p-2 border-[1px] border-slate-400 flex flex-row items-center gap-1 rounded-full cursor-pointer hover:shadow-md transition text-slate-700"
         >
-          <UserAvatar name={currentUser?.name || ""} />
+          <UserAvatar name={currentUser?.name || ""} src={currentUser?.image} />
           <AiFillCaretDown />
         </div>
         {isOpen && (
-          <div className="absolute rounded-md shadow-md w-[170px] bg-white overflow-hidden ring-0 top-12 text-sm flex flex-col cursor-pointer">
+          <div className="absolute rounded-md shadow-md w-[170px] bg-white overflow-hidden ring-0 top-12 text-sm flex flex-col cursor-pointer right-0">
             {currentUser ? (
               <div>
                 <Link href="/orders">
