@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "A comprehensive Next.js e-commerce tutorial covering app setup, product listings, shopping cart functionality, user authentication, Stripe payment processing, and the development of an Admin Dashboard for complete product and order management.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
