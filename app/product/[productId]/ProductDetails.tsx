@@ -32,8 +32,6 @@ export type SelectedImageType = {
 };
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
-  console.log("product", product);
-  
   const { cartProducts, handleAddProductToCart } = useCart();
   const [isProductInCart, setIsProductInCart] = useState(false);
   const [cartProduct, setCartProduct] = useState<CartProductType>({

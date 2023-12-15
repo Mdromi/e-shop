@@ -6,17 +6,22 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import { connect } from "http2";
 import { Prisma } from "@prisma/client";
 
-const stripe = new Stripe(process.env.STRIPE_SECRECT_KEY as string, {
-  apiVersion: "2023-10-16",
-});
+// const stripe = new Stripe(process.env.STRIPE_SECRECT_KEY as string, {
+//   apiVersion: "2023-10-16",
+// });
+
+const stripe = require("stripe")(process.env.STRIPE_SECRECT_KEY)
 
 const calculateOrderAmount = (items: CartProductType[]) => {
   const totalPrice = items.reduce((acc, item) => {
     const itemTotal = item.price * item.quantity;
     return acc + itemTotal;
   }, 0);
+
+  // Return totalPrice without converting to cents
   return totalPrice;
 };
+
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -33,7 +38,7 @@ export async function POST(request: Request) {
     amount: total,
     currency: "usd",
     status: "pending",
-    deliverySystem: "pending",
+    deliveryStatus: "pending",
     paymentIntentId: payment_intent_id,
     products: items,
   };
@@ -83,6 +88,7 @@ export async function POST(request: Request) {
     // create the order
     orderData.paymentIntentId = paymentIntent.id;
     await prisma.order.create({
+      // description: 'Software development services',
       data: orderData,
     });
 
