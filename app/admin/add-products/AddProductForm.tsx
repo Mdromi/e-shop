@@ -74,8 +74,10 @@ const AddProductForm = () => {
 
   const onsubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log("data", data);
-
+    // upload images to fb
+    // save product to mongodb
     setIsLoading(true);
+    let uploadedImages: UploadedImageType[] = [];
 
     if (!data.category) {
       setIsLoading(false);
@@ -87,11 +89,10 @@ const AddProductForm = () => {
       return toast.error("No selected image");
     }
 
-    try {
-      toast("Creating product. Please wait...");
-
-      const uploadedImages = await Promise.all(
-        data.images.map(async (item: any) => {
+    const handleImageUpload = async () => {
+      toast("Createing product. please wait...");
+      try {
+        for (const item of data.images) {
           if (item.image) {
             const fileName = new Date().getTime() + "-" + item.image.name;
             const storage = getStorage(firebaseApp);
@@ -104,43 +105,72 @@ const AddProductForm = () => {
                 (snapshot) => {
                   const progress =
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log("Upload is " + progress + " % done");
+                  console.log("Upload is " + progress + "% done");
+                  switch (snapshot.state) {
+                    case "paused":
+                      console.log("Upload is paused");
+                      break;
+                    case "running":
+                      console.log("Upload is running");
+                      break;
+                    case "success":
+                      console.log("Upload is success");
+                      break;
+                    case "canceled":
+                      console.log("Upload is canceled");
+                      break;
+                    case "error":
+                      console.log("Error uploading image");
+                      break;
+                  }
                 },
                 (error) => {
+                  // handle the unsuccessfull uploads
                   console.log("Error uploading image", error);
                   reject(error);
                 },
-                async () => {
-                  try {
-                    const downloadURL = await getDownloadURL(
-                      uploadTask.snapshot.ref
-                    );
-                    console.log("File available at:", downloadURL);
-                    resolve({ ...item, image: downloadURL });
-                  } catch (error) {
-                    console.log("Error getting the download URL", error);
-                    reject(error);
-                  }
+                () => {
+                  getDownloadURL(uploadTask.snapshot.ref)
+                    .then((downloadURL) => {
+                      uploadedImages.push({
+                        ...item,
+                        image: downloadURL,
+                      });
+                      console.log("File avilable at:", downloadURL);
+                      resolve();
+                    })
+                    .catch((error) => {
+                      console.log("Error getting the download URL", error);
+                      reject(error);
+                    });
                 }
               );
             });
           }
-        })
-      );
+        }
+      } catch (error) {
+        setIsLoading(false);
+        console.log("Error handling image uploads", error);
+        return toast.error("Error handling image uploads");
+      }
+    };
 
-      const productData = { ...data, images: uploadedImages };
+    await handleImageUpload();
+    const productData = { ...data, images: uploadedImages };
 
-      await axios.post("/api/product", productData);
-
-      toast.success("Product Created");
-      setIsProductCreated(true);
-      router.refresh();
-    } catch (error) {
-      console.log("Error handling image uploads or saving product", error);
-      toast.error("Error handling image uploads or saving product");
-    } finally {
-      setIsLoading(false);
-    }
+    axios
+      .post("/api/product", productData)
+      .then(() => {
+        toast.success("Product Created");
+        setIsProductCreated(true);
+        router.refresh();
+      })
+      .catch((error) => {
+        toast.error("Something want to wrong saving product db");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const category = watch("category");
