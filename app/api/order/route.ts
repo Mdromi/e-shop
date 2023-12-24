@@ -1,37 +1,9 @@
+
 import prisma from "@/libs/prismadb";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { Prisma } from "@prisma/client";
 
-export async function POST(request: Request) {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser || currentUser.role !== "ADMIN") {
-    return NextResponse.error();
-  }
-
-  try {
-    const body = await request.json();
-    const { name, description, price, brand, category, inStock, images } = body;
-
-    const product = await prisma.product.create({
-      data: {
-        name,
-        description,
-        brand,
-        category,
-        inStock,
-        images,
-        price: parseFloat(price),
-      },
-    });
-
-    return NextResponse.json(product);
-  } catch (error) {
-    console.error("Error in product creation:", error);
-    return NextResponse.error();
-  }
-}
 
 export async function PUT(request: Request) {
   try {
@@ -42,17 +14,20 @@ export async function PUT(request: Request) {
     }
 
     const body = await request.json();
-    const { id, inStock } = body;
+    const { id, deliveryStatus  } = body;
     
 
     if (!id) return NextResponse.error();
 
-    const product = await prisma.product.update({
+    console.log("deliveryStatus", deliveryStatus);
+    
+
+    const order = await prisma.order.update({
       where: { id: id },
-      data: { inStock },
+      data: { deliveryStatus },
     });
 
-    return NextResponse.json(product);
+    return NextResponse.json(order);
   } catch (error: any) {
     console.error("Error in PUT request:", error);
 
@@ -68,4 +43,6 @@ export async function PUT(request: Request) {
     return NextResponse.error();
   }
 }
+
+
 

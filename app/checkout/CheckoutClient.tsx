@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import CheckoutForm from "./CheckoutForm";
 import Button from "../components/Button";
+import axios from "axios";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -41,7 +42,6 @@ const CheckoutClient = () => {
 
         setLoading(false);
         console.log("response", response);
-        
 
         if (response.status === 401) {
           router.push("/login");
@@ -71,9 +71,23 @@ const CheckoutClient = () => {
     },
   };
 
-  const handleSetPatmentSuccess = useCallback((value: boolean) => {
-    setPaymentSuccess(value);
-  }, []);
+  const handleSetPaymentSuccess = useCallback(
+    async (value: boolean) => {
+      setPaymentSuccess(value);
+      console.log("handleSetPaymentSuccess", value);
+
+      if (value && paymentIntent != null) {
+        // No need to check value again here, it's already true
+        console.log("paymentIntent", paymentIntent);
+
+        await axios.put("/api/order/payment-update", {
+          paymentIntentId: paymentIntent,
+          status: "succeeded", 
+        });
+      }
+    },
+    [paymentIntent]
+  );
 
   return (
     <div className="w-full">
@@ -81,7 +95,7 @@ const CheckoutClient = () => {
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm
             clientSecret={clientSecret}
-            handleSetPaymentSuccess={handleSetPatmentSuccess}
+            handleSetPaymentSuccess={handleSetPaymentSuccess}
           />
         </Elements>
       )}

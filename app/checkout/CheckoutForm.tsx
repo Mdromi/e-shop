@@ -1,5 +1,4 @@
 "use client";
-
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/utils/formatPrice";
 import {
@@ -64,12 +63,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
     }
   };
 
-  const handlePaymentSuccess = () => {
-    handleClearCart();
-    handleSetPaymentSuccess(true);
-    handleSetPaymentIntent(null);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -87,14 +80,16 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
       console.log("result-2", result);
 
       if (!result.error) {
-        handlePaymentSuccess();
+        handleClearCart();
+        handleSetPaymentSuccess(true);
+        handleSetPaymentIntent(null);
       }
     } catch (error) {
       console.error("Error confirming payment:", error);
       toast.error("Something went wrong during payment confirmation");
     } finally {
       setIsLoading(false);
-      handlePaymentIntent()
+      handlePaymentIntent();
     }
   };
 

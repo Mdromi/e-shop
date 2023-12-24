@@ -9,6 +9,8 @@ export const config = {
   },
 };
 
+// cmd -> stripe listen --forward-to localhost:3000/api/stripe-webhook
+
 const stripe = require("stripe")(process.env.STRIPE_SECRECT_KEY);
 
 export default async function handler(
