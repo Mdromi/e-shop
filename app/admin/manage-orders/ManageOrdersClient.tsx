@@ -107,7 +107,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
             <ActionBtn
               icon={MdRemoveRedEye}
               onClick={() => {
-                router.push(`order/${params.row.id}`);
+                router.push(`/order/${params.row.id}`);
               }}
             />
           </div>
@@ -136,10 +136,10 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
     axios
       .put("/api/order", {
         id,
-        DeliveryStatus: "deliverd",
+        deliveryStatus: "deliviered",
       })
       .then((res) => {
-        toast.success("Order Deliverd");
+        toast.success("Order Delivierd");
         router.refresh();
       })
       .catch((err) => {
