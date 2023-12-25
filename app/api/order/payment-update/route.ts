@@ -16,8 +16,6 @@ export async function PUT(request: Request) {
 
     if (!paymentIntentId) return NextResponse.error();
 
-    console.log("status", status);
-
     const order = await prisma.order.update({
       where: { paymentIntentId: paymentIntentId },
       data: { status },

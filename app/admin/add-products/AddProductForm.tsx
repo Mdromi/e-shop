@@ -73,7 +73,6 @@ const AddProductForm = () => {
   }, [isProductCreated]);
 
   const onsubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("data", data);
     // upload images to fb
     // save product to mongodb
     setIsLoading(true);

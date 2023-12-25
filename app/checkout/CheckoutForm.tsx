@@ -77,7 +77,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
         elements,
         redirect: "if_required",
       });
-      console.log("result-2", result);
 
       if (!result.error) {
         handleClearCart();

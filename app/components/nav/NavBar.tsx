@@ -4,6 +4,7 @@ import { Smooch } from "next/font/google";
 import CartCount from "./CartCount";
 import UserMenu from "./UserMenu";
 import { getCurrentUser } from "@/actions/getCurrentUser";
+import Categories from "./Categories";
 
 const smooch = Smooch({ subsets: ["latin"], weight: ["400"] });
 const Navbar = async () => {
@@ -26,6 +27,9 @@ const Navbar = async () => {
             </div>
           </div>
         </Container>
+      </div>
+      <div>
+        <Categories/>
       </div>
     </div>
   );

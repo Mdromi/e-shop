@@ -41,7 +41,6 @@ const CheckoutClient = () => {
         });
 
         setLoading(false);
-        console.log("response", response);
 
         if (response.status === 401) {
           router.push("/login");
@@ -74,12 +73,9 @@ const CheckoutClient = () => {
   const handleSetPaymentSuccess = useCallback(
     async (value: boolean) => {
       setPaymentSuccess(value);
-      console.log("handleSetPaymentSuccess", value);
 
       if (value && paymentIntent != null) {
         // No need to check value again here, it's already true
-        console.log("paymentIntent", paymentIntent);
-
         await axios.put("/api/order/payment-update", {
           paymentIntentId: paymentIntent,
           status: "succeeded", 

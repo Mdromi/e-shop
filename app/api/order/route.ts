@@ -1,26 +1,21 @@
-
 import prisma from "@/libs/prismadb";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { Prisma } from "@prisma/client";
 
-
 export async function PUT(request: Request) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser || currentUser.role !== "ADMIN") {
+    if (!currentUser) return NextResponse.error();
+    if (currentUser.role !== "ADMIN") {
       return NextResponse.error();
     }
 
     const body = await request.json();
-    const { id, deliveryStatus  } = body;
-    
+    const { id, deliveryStatus } = body;
 
     if (!id) return NextResponse.error();
-
-    console.log("deliveryStatus", deliveryStatus);
-    
 
     const order = await prisma.order.update({
       where: { id: id },
@@ -43,6 +38,3 @@ export async function PUT(request: Request) {
     return NextResponse.error();
   }
 }
-
-
-

@@ -20,7 +20,7 @@ const SelectImage: React.FC<SelectImageProps> = ({
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { "iamge/*": [".jpeg", ".png"] },
+    accept: { "iamge/*": [".jpeg", ".png", ".jpg"] },
   });
   return (
     <div

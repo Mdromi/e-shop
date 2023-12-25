@@ -6,8 +6,6 @@ import NullData from "@/app/components/NullData";
 
 const ManageProducts = async () => {
   const currrentUser = await getCurrentUser();
-  console.log("currrentUser.role", currrentUser?.role);
-  
 
   if (!currrentUser || currrentUser.role !== "ADMIN") {
     return <NullData title="Opps! Access denieds" />;
