@@ -41,8 +41,6 @@ const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
     (review: Review) => review.userId === user.id
   );
 
-  console.log("deliveredOrder", deliveredOrder);
-  console.log("userReview", userReview);
 
   if (userReview || !deliveredOrder) {
     return null;
