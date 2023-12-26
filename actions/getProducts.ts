@@ -8,11 +8,15 @@ export interface IProductsParams {
 export default async function getProducts(params: IProductsParams) {
   try {
     const { category, searchTerm } = params;
-    let searchString = searchTerm;
+    let searchString = searchTerm || ""; // Ensure searchString is not null
+
+    console.log("Received params:", params);
+
     let query: any = {};
 
-    if (!searchString) searchString = "";
-    if (category) query.category = category;
+    if (category) {
+      query.category = category;
+    }
 
     const products = await prisma.product.findMany({
       where: {
@@ -23,6 +27,8 @@ export default async function getProducts(params: IProductsParams) {
               contains: searchString,
               mode: "insensitive",
             },
+          },
+          {
             description: {
               contains: searchString,
               mode: "insensitive",
@@ -41,8 +47,12 @@ export default async function getProducts(params: IProductsParams) {
         },
       },
     });
-    return products
+
+    
+    return products;
   } catch (error: any) {
+    console.error("Error in getProducts:", error);
     throw new Error(error);
   }
 }
+
