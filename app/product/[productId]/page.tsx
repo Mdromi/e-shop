@@ -4,6 +4,8 @@ import ListRating from "./ListRating";
 import { products } from "@/utils/products";
 import getProductById from "@/actions/getProductById";
 import NullData from "@/app/components/NullData";
+import AddRating from "./AddRating";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 interface IPrams {
   productId?: string;
@@ -15,6 +17,7 @@ const Product = async ({ params }: { params: IPrams }) => {
     return <NullData title="Opps! Product ID is missing" />;
   }
 
+  const currentUser = await getCurrentUser()
   const customProduct = await getProductById(params);
   const utilsProduct = products.find((item) => item.id === params.productId);
 
@@ -30,7 +33,7 @@ const Product = async ({ params }: { params: IPrams }) => {
         <Container>
           <ProductDetails product={product} />
           <div className="flex flex-col mt-20 gap-4">
-            <div>Add Rating</div>
+           <AddRating product={customProduct} user={currentUser}/>
             <ListRating product={product} />
           </div>
         </Container>

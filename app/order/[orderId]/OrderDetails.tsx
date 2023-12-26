@@ -62,9 +62,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
               bg="bg-purple-200"
               color="text-purple-700"
             />
-          ) : order.deliveryStatus === "deliviered" ? (
+          ) : order.deliveryStatus === "delivered" ? (
             <Status
-              text="deliviered"
+              text="delivered"
               icon={MdDone}
               bg="bg-green-200"
               color="text-green-700"

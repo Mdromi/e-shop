@@ -27,7 +27,7 @@ interface PaymentStatusProps {
 }
 
 interface DeliveryStatusProps {
-  deliveryStatus: "pending" | "dispatched" | "deliviered";
+  deliveryStatus: "pending" | "dispatched" | "delivered";
 }
 
 type ExtendedOrder = Order & {
@@ -136,7 +136,7 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
     axios
       .put("/api/order", {
         id,
-        deliveryStatus: "deliviered",
+        deliveryStatus: "delivered",
       })
       .then((res) => {
         toast.success("Order Delivierd");
@@ -212,9 +212,9 @@ const DeliveryStatus: React.FC<DeliveryStatusProps> = ({ deliveryStatus }) => {
           bg="bg-purple-200"
           color="text-purple-700"
         />
-      ) : deliveryStatus === "deliviered" ? (
+      ) : deliveryStatus === "delivered" ? (
         <Status
-          text="deliviered"
+          text="delivered"
           icon={MdDone}
           bg="bg-green-200"
           color="text-green-700"

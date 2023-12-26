@@ -11,9 +11,6 @@ import {
   MdRemoveRedEye,
 } from "react-icons/md";
 import ActionBtn from "@/app/components/ActionBtn";
-import { useCallback } from "react";
-import axios from "axios";
-import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 import Heading from "@/app/components/products/Heading";
@@ -27,7 +24,7 @@ interface PaymentStatusProps {
 }
 
 interface DeliveryStatusProps {
-  deliveryStatus: "pending" | "dispatched" | "deliviered";
+  deliveryStatus: "pending" | "dispatched" | "delivered";
 }
 
 type ExtendedOrder = Order & {
@@ -167,9 +164,9 @@ const DeliveryStatus: React.FC<DeliveryStatusProps> = ({ deliveryStatus }) => {
           bg="bg-purple-200"
           color="text-purple-700"
         />
-      ) : deliveryStatus === "deliviered" ? (
+      ) : deliveryStatus === "delivered" ? (
         <Status
-          text="deliviered"
+          text="delivered"
           icon={MdDone}
           bg="bg-green-200"
           color="text-green-700"
