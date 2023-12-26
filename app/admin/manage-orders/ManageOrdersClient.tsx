@@ -23,7 +23,7 @@ interface ManageOrdersClientProps {
 }
 
 interface PaymentStatusProps {
-  paymentStatus: "pending" | "succeeded";
+  paymentStatus: "pending" | "complete";
 }
 
 interface DeliveryStatusProps {
@@ -181,9 +181,9 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ paymentStatus }) => {
           bg="bg-slate-200"
           color="text-slate-700"
         />
-      ) : paymentStatus === "succeeded" ? (
+      ) : paymentStatus === "complete" ? (
         <Status
-          text="succeeded"
+          text="complete"
           icon={MdDeliveryDining}
           bg="bg-green-200"
           color="text-green-700"

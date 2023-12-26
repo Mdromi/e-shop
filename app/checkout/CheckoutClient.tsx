@@ -78,7 +78,7 @@ const CheckoutClient = () => {
         // No need to check value again here, it's already true
         await axios.put("/api/order/payment-update", {
           paymentIntentId: paymentIntent,
-          status: "succeeded", 
+          status: "complete", 
         });
       }
     },

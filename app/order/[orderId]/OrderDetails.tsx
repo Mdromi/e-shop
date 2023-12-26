@@ -33,9 +33,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
               bg="bg-slate-200"
               color="text-slate-700"
             />
-          ) : order.status === "succeeded" ? (
+          ) : order.status === "complete" ? (
             <Status
-              text="succeeded"
+              text="complete"
               icon={MdDone}
               bg="bg-green-200"
               color="text-green-700"

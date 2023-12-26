@@ -40,7 +40,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
         .then(({ paymentIntent }) => {
           if (paymentIntent) {
             switch (paymentIntent.status) {
-              case "succeeded":
+              case "complete":
                 // Remove eShopPaymentIntent from localStorage
                 localStorage.removeItem("eShopPaymentIntent");
                 toast.success("Checkout Success");

@@ -51,14 +51,14 @@ const Summary: React.FC<SummaryProps> = ({ orders, products, users }) => {
     setSummaryData((prev) => {
       let tempdata = { ...prev };
       const totalSale = orders.reduce((acc, item) => {
-        if (item.status === "succeeded") {
+        if (item.status === "complete") {
           // item.status === "complete"
           return acc + item.amount;
         } else return acc;
       }, 0);
 
       const paidOrders = orders.filter((order) => {
-        return order.status === "succeeded";
+        return order.status === "complete";
       });
 
       const unpaidOrders = orders.filter((order) => {

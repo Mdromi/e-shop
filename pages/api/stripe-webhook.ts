@@ -38,7 +38,7 @@ export default async function handler(
   }
 
   switch (event.type) {
-    case "charge.succeeded":
+    case "charge.complete":
       const charge: any = event.data.object as Stripe.Charge;
 
       if (typeof charge.payment_intent === "string") {
