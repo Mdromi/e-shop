@@ -10,7 +10,6 @@ export default async function getProducts(params: IProductsParams) {
     const { category, searchTerm } = params;
     let searchString = searchTerm || ""; // Ensure searchString is not null
 
-    console.log("Received params:", params);
 
     let query: any = {};
 

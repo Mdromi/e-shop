@@ -37,14 +37,22 @@ export default async function handler(
     return res.status(400).send("Webhook Error" + error);
   }
 
+  const charge: any = event.data.object as Stripe.Charge;
+
   switch (event.type) {
-    case "charge.complete":
-      const charge: any = event.data.object as Stripe.Charge;
+    case "payment_intent.succeeded":
+      const paymentIntent: Stripe.PaymentIntent = event.data
+        .object as Stripe.PaymentIntent;
 
       if (typeof charge.payment_intent === "string") {
+        const shippingAddress = charge.shipping?.address;
+
         await prisma?.order.update({
           where: { paymentIntentId: charge.payment_intent },
-          data: { status: "complete", address: charge.shipping?.address },
+          data: {
+            status: "complete",
+            address: shippingAddress ?? undefined,
+          },
         });
       }
       break;
