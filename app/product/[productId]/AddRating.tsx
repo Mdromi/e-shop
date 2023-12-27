@@ -25,7 +25,6 @@ interface AddRatingProps {
       })
     | null;
 }
-
 const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -49,7 +48,7 @@ const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
     return null;
   }
 
-  // Call hooks unconditionally at the top level
+  // Call useForm unconditionally at the top level
   const {
     register,
     handleSubmit,
@@ -93,7 +92,6 @@ const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
     }
   };
 
-  // Rest of your component code
   return (
     <div className="flex flex-col gap-2 max-w-[500px]">
       <Heading title="Rate This Product" />
@@ -117,5 +115,6 @@ const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
     </div>
   );
 };
+
 
 export default AddRating;
