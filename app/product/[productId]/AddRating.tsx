@@ -27,6 +27,10 @@ interface AddRatingProps {
 }
 
 const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  // Move the conditional checks outside the component
   if (!user || !product) {
     return <NullData title="Product not available" />;
   }
@@ -41,14 +45,11 @@ const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
     (review: Review) => review.userId === user.id
   );
 
-
   if (userReview || !deliveredOrder) {
     return null;
   }
 
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-
+  // Call hooks unconditionally at the top level
   const {
     register,
     handleSubmit,
@@ -92,6 +93,7 @@ const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
     }
   };
 
+  // Rest of your component code
   return (
     <div className="flex flex-col gap-2 max-w-[500px]">
       <Heading title="Rate This Product" />
