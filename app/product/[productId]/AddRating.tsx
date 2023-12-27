@@ -13,17 +13,17 @@ import { useState } from "react";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form"; // Correct import
 import { toast } from "react-hot-toast";
 
-interface ProductWithReviews extends Product {
+export interface UserWithOrders extends SafeUser {
+  orders: Order[];
+}
+
+export interface ProductWithReviews extends Product {
   reviews: Review[];
 }
 
-interface AddRatingProps {
+export interface AddRatingProps {
   product: ProductWithReviews | null;
-  user:
-    | (SafeUser & {
-        orders: Order[];
-      })
-    | null;
+  user: UserWithOrders | null;
 }
 const AddRating: React.FC<AddRatingProps> = ({ product, user }) => {
   const [isLoading, setIsLoading] = useState(false);

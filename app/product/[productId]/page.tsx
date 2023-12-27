@@ -1,48 +1,60 @@
+import { useEffect, useState } from "react";
 import Container from "@/app/components/Container";
 import ProductDetails from "./ProductDetails";
 import ListRating from "./ListRating";
-import { products } from "@/utils/products";
 import getProductById from "@/actions/getProductById";
 import NullData from "@/app/components/NullData";
-import AddRating from "./AddRating";
+import AddRating, { AddRatingProps, ProductWithReviews, UserWithOrders } from "./AddRating";
 import { getCurrentUser } from "@/actions/getCurrentUser";
+import { Product, User } from "@prisma/client";
 
-interface IPrams {
+interface IParams {
   productId?: string;
 }
 
-const Product = async ({ params }: { params: IPrams }) => {
-  // Ensure params.productId is a valid string
-  if (!params.productId) {
-    return <NullData title="Opps! Product ID is missing" />;
-  }
+const Product = ({ params }: { params: IParams }) => {
+  const [product, setProduct] = useState<ProductWithReviews | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserWithOrders | null>(null);
 
-  const currentUser = await getCurrentUser()
-  const customProduct = await getProductById(params);
-  const utilsProduct = products.find((item) => item.id === params.productId);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!params.productId) {
+        return;
+      }
 
-  // Check if either customProduct or utilsProduct is found
-  if (customProduct || utilsProduct) {
-    const product = {
-      ...customProduct,
-      ...utilsProduct,
+      try {
+        const fetchedProduct = await getProductById(params);
+        const user = await getCurrentUser();
+
+        setProduct(fetchedProduct);
+        setCurrentUser(user);
+      } catch (error) {
+        console.error("Error fetching product or user:", error);
+      }
     };
 
-    return (
-      <div className="p-8">
-        <Container>
-          <ProductDetails product={product} />
-          <div className="flex flex-col mt-20 gap-4">
-           <AddRating product={customProduct} user={currentUser}/>
-            <ListRating product={product} />
-          </div>
-        </Container>
-      </div>
-    );
+    fetchData();
+  }, [params.productId]);
+
+  if (!params.productId) {
+    return <NullData title="Oops! Product ID is missing" />;
   }
 
-  // If neither customProduct nor utilsProduct is found
-  return <NullData title="Opps! Product with the given id does not exist" />;
+  if (!product) {
+    return <div>Loading...</div>; // You might want to replace this with a loading spinner or a more user-friendly loading message.
+  }
+
+  return (
+    <div className="p-8">
+      <Container>
+        <ProductDetails product={product} />
+        <div className="flex flex-col mt-20 gap-4">
+          <AddRating product={product} user={currentUser} />
+          <ListRating product={product} />
+        </div>
+      </Container>
+    </div>
+  );
 };
 
 export default Product;
